@@ -344,6 +344,14 @@ Before you run anonymizer you should add configuration file. Copy sample config 
 RUBY_ENV=<env_name> bundle exec rake project:anonymize[example]
 ```
 
+#### Run with docker
+Copy the sql file as `dump/magento2.sql`
+Run
+```bash
+docker-compose -f dev/docker/ruby2.5/docker-compose.yml -f dev/docker/ruby2.5/docker-compose.run.yml up --abort-on-container-exit
+```
+The resulting anonymized file will be in `dump`
+
 ## Development
 
 ### Build environment
@@ -351,7 +359,7 @@ RUBY_ENV=<env_name> bundle exec rake project:anonymize[example]
 Run development docker environment using the command below:
 
 ```
-docker-compose -f dev/docker/docker-compose.dev.yml up
+docker-compose -f dev/docker/ruby2.5/docker-compose.yml up
 ```
 
 ### How to run the tests

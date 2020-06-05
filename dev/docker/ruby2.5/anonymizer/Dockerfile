@@ -11,7 +11,7 @@ USER root
 
 RUN apt-get update \
     && apt-get install -y \
-        mysql-client \
+        mariadb-client \
         rsync \
         build-essential \
     && apt-get clean \
@@ -21,8 +21,6 @@ RUN apt-get update \
 RUN if [ ! `id -g anonymizer &> /dev/null` ]; then groupadd -f -g ${GID} anonymizer; fi \
     && if [ ! `id -u anonymizer &> /dev/null` ]; then useradd --shell /bin/bash -u ${UID} -g ${GID} -m anonymizer; fi
 
-COPY --chown=1000:1000 . .
+RUN chmod a+w /usr/local/bundle/config
 
 USER anonymizer
-
-RUN bundle install --deployment --force

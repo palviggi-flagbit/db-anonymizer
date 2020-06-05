@@ -15,14 +15,18 @@ namespace 'project' do
 
     LoggerHelper.file(project_name)
 
+    puts 'Loading data'
     Rake.application.invoke_task("project:copy_dump_from_remote[#{project_name}]")
     Rake.application.invoke_task("project:remove_database[#{project_name}]")
     Rake.application.invoke_task("project:restore_database[#{project_name}]")
+    puts 'Anonymizing'
     Rake.application.invoke_task("project:anonymize_database[#{project_name}]")
+    puts 'Dumping copy'
     Rake.application.invoke_task("project:dump_database[#{project_name}]")
     Rake.application.invoke_task("project:upload_to_web[#{project_name}]")
     Rake.application.invoke_task("project:remove_database[#{project_name}]")
     Rake.application.invoke_task("project:remove_dump_from_tmp[#{project_name}]")
+    puts 'Done'
   end
 
   task :restore_database, [:project_name] do |_t, args|

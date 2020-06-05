@@ -1,15 +1,15 @@
 version: '3'
 services:
   ruby:
-    image: ruby:2.2
+    image: ruby:2.5
     build:
       context: ../../../
-      dockerfile: dev/docker/ruby2.2/anonymizer/Dockerfile
+      dockerfile: dev/docker/ruby2.5/anonymizer/Dockerfile
     volumes:
       - "../../../:/usr/src/anonymizer"
     depends_on:
       - mysql
-    command: ['bash', '-c', 'sleep 60000']
+    command: ['bash', '-c', 'bundle install --deployment; sleep 60000']
   mysql:
     image: mysql:8
     ports:
@@ -20,10 +20,3 @@ services:
       MYSQL_PASSWORD: anonymizer
       MYSQL_ROOT_PASSWORD: anonymizer
     command: --default-authentication-plugin=mysql_native_password
-  postfix:
-    image: catatnight/postfix
-    ports:
-      - 25
-    environment:
-      maildomain: divante.pl
-      smtp_user: anonymizer:password

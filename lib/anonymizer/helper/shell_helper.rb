@@ -17,7 +17,7 @@ module ShellHelper
   end
 
   def self.restore_database(project_name, database, dir)
-    command = "gunzip -c #{dir}/#{project_name}.sql.gz | " \
+    command = "cat #{dir}/#{project_name}.sql | " \
       "sed -e 's/DEFINER=[^*]*\\*/\\*/' | " \
       "sed -e 's/ROW_FORMAT=FIXED//g' | " \
       "mysql#{mysql_options(database)} #{project_name}"
@@ -29,7 +29,7 @@ module ShellHelper
     random_string = "_#{database[:random_string]}" if database[:random_string]
     command = "mysqldump#{mysql_options(database)} #{project_name} | " \
       'grep -av "SQL SECURITY DEFINER" | sed -e \'s/DEFINER[ ]*=[ ]*[^*]*\*/\*/\' | ' \
-      "gzip > #{tmp_dir}/#{project_name}#{random_string}.sql.gz"
+      "cat > #{tmp_dir}/#{project_name}#{random_string}.sql"
 
     remove_white_space(command)
   end
@@ -37,7 +37,7 @@ module ShellHelper
   def self.upload_to_web(project_name, database, web_server, tmp_dir, options = '')
     random_string = "_#{database[:random_string]}" if database[:random_string]
     command = "rsync -a #{ssh_option(web_server[:port])} #{options} " \
-      "#{tmp_dir}/#{project_name}#{random_string}.sql.gz " \
+      "#{tmp_dir}/#{project_name}#{random_string}.sql " \
       "#{host_and_user(web_server[:host], web_server[:user])}#{web_server[:path]}/"
 
     remove_white_space(command)
@@ -52,20 +52,20 @@ module ShellHelper
 
     command = "rsync -a #{ssh_option(dump_server[:port])} #{options} " \
       "#{host_and_user(dump_server[:host], dump_server[:user])}#{dump_server[:dump_dir]}" \
-      "/#{project_name}.sql.gz #{tmp_dir}/"
+      "/#{project_name}.sql #{tmp_dir}/"
 
     remove_white_space(command)
   end
 
   def self.remove_dump(project_name, tmp_dir)
-    command = "rm -rf #{tmp_dir}/#{project_name}.sql.gz"
+    command = "rm -rf #{tmp_dir}/#{project_name}.sql"
 
     remove_white_space(command)
   end
 
   def self.remove_anonymized_dump(project_name, random_string, tmp_dir)
     random_string = "_#{random_string}" if random_string
-    command = "rm -rf #{tmp_dir}/#{project_name}#{random_string}.sql.gz"
+    command = "rm -rf #{tmp_dir}/#{project_name}#{random_string}.sql"
 
     remove_white_space(command)
   end

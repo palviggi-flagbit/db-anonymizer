@@ -1,0 +1,15 @@
+logger:
+  enabled: false
+database:
+  user: root
+  host: mysql
+  pass: anonymizer
+  name: anonymizer
+tmp_path: /tmp
+web_server:
+  user:
+  host:
+  pass:
+  path: /usr/src/anonymizer/dump
+cap:
+  ssh_options: {}
