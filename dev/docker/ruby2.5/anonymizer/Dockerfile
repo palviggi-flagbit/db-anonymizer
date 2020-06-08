@@ -21,6 +21,6 @@ RUN apt-get update \
 RUN if [ ! `id -g anonymizer &> /dev/null` ]; then groupadd -f -g ${GID} anonymizer; fi \
     && if [ ! `id -u anonymizer &> /dev/null` ]; then useradd --shell /bin/bash -u ${UID} -g ${GID} -m anonymizer; fi
 
-RUN chmod a+w /usr/local/bundle/config
+RUN mkdir -p /usr/local/bundle; touch /usr/local/bundle/config; chmod a+w /usr/local/bundle/config
 
 USER anonymizer
