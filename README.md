@@ -345,10 +345,20 @@ RUBY_ENV=<env_name> bundle exec rake project:anonymize[example]
 ```
 
 #### Run with docker
+
+##### Magento2
 Copy the sql file as `dump/magento2.sql`
 Run
 ```bash
-docker-compose -f dev/docker/ruby2.5/docker-compose.yml -f dev/docker/ruby2.5/docker-compose.run.yml up --abort-on-container-exit
+MAGENTO_VERSION=magento2 docker-compose -f dev/docker/ruby2.5/docker-compose.yml -f dev/docker/ruby2.5/docker-compose.run.yml up --abort-on-container-exit
+```
+The resulting anonymized file will be in `dump`
+
+##### Magento1
+Copy the sql file as `dump/magento1.sql`
+Run
+```bash
+MAGENTO_VERSION=magento1 docker-compose -f dev/docker/ruby2.5/docker-compose.yml -f dev/docker/ruby2.5/docker-compose.run.yml up --abort-on-container-exit
 ```
 The resulting anonymized file will be in `dump`
 

@@ -1,4 +1,4 @@
 version: '3'
 services:
   ruby:
-    command: ['bash', '-c', 'bundle install --deployment;sleep 10;RUBY_ENV=magento2 bundle exec rake project:anonymize[magento2]']
+    command: ['bash', '-c', 'bundle install --deployment;sleep 10;RUBY_ENV=magento bundle exec rake project:anonymize[${MAGENTO_VERSION}]']
